@@ -7,6 +7,78 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
+    /* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  /* ナビ */
+  nav {
+    padding: 16px 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .nav-links { gap: 20px; }
+  .nav-links a { font-size: 10px; letter-spacing: 2px; }
+
+  /* ヒーロー */
+  #hero { padding: 0 24px 60px; }
+  .hero-scroll { display: none; }
+
+  /* oto-botセクション */
+  #otobot { padding: 100px 20px 60px; }
+  #otobot > .otobot-inner > div:first-child,
+  #otobot [style*="grid-template-columns:380px"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+
+  /* D-VIEWセクション */
+  #dview { padding: 80px 20px 60px; }
+  #dview [style*="grid-template-columns:1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+
+  /* Riaセクション */
+  .project-section {
+    grid-template-columns: 1fr !important;
+  }
+  .project-text {
+    padding: 80px 24px 40px;
+    background: rgba(8,8,8,0.75) !important;
+  }
+  .project-visuals {
+    padding: 0 24px 60px;
+  }
+
+  /* Riaの縦スクロールトラック → 高さ解放 */
+  #ria .slide-track[style*="flex-direction:column"] {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    height: auto !important;
+  }
+  #ria .slide-track > div { flex-shrink: 0; width: 260px; }
+
+  /* slide-trackカード幅を画面に合わせる */
+  .otobot-card { width: 80vw !important; max-width: 340px; }
+  .otobot-card-inner { height: 240px !important; }
+
+  /* テキスト系 */
+  .project-title { font-size: clamp(36px, 9vw, 64px) !important; }
+  .project-desc { max-width: 100%; }
+  .project-meta { padding-top: 20px; }
+
+  /* other-grid */
+  .other-card { width: 200px !important; }
+
+  /* フッター */
+  footer { padding: 60px 24px 40px !important; }
+
+  /* section-divider */
+  .section-divider { margin: 0 20px; }
+}
     :root {
       --black: #080808;
       --white: #f0ede8;
@@ -28,6 +100,7 @@
       cursor: none;
     }
 
+    /* カスタムカーソル */
     .cursor {
       position: fixed; width: 8px; height: 8px;
       background: var(--white); border-radius: 50%;
@@ -43,6 +116,7 @@
       transition: all 0.15s ease;
     }
 
+    /* ナビゲーション */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 24px 48px;
@@ -62,6 +136,7 @@
     }
     .nav-links a:hover { color: var(--white); }
 
+    /* ヒーロー */
     #hero {
       position: relative; height: 100vh;
       display: flex; align-items: flex-end;
@@ -94,6 +169,7 @@
     }
     .hero-scroll::after { content: ''; width: 1px; height: 60px; background: linear-gradient(to bottom, var(--gray-light), transparent); }
 
+    /* プロジェクトセクション共通 */
     .project-section {
       position: relative;
       min-height: 100vh;
@@ -131,6 +207,7 @@
       display: flex; align-items: center;
     }
 
+    /* スライドトラック */
     .slide-track {
       display: flex; gap: 12px;
       overflow-x: auto; padding-bottom: 16px;
@@ -143,6 +220,7 @@
     .slide-track::-webkit-scrollbar-track { background: var(--gray-mid); }
     .slide-track::-webkit-scrollbar-thumb { background: var(--accent); }
 
+    /* oto-botビジュアルカード */
     .otobot-card {
       flex-shrink: 0;
       scroll-snap-align: start;
@@ -167,8 +245,10 @@
       letter-spacing: 2px; margin-top: 8px;
     }
 
+    /* 区切り線 */
     .section-divider { height: 1px; background: linear-gradient(to right, transparent, var(--gray-mid), transparent); margin: 0 48px; }
 
+    /* oto-botセクション（全幅） */
     #otobot {
       padding: 160px 48px 80px;
       position: relative;
@@ -182,6 +262,7 @@
       align-items: start;
     }
 
+    /* Other Blender Works */
     .other-grid {
       display: flex;
       gap: 16px;
@@ -219,6 +300,7 @@
       letter-spacing: 2px; margin-top: 8px;
     }
 
+    /* アコーディオン */
     .accordion { margin: 24px 0; border-top: 1px solid var(--gray-mid); }
     .accordion-btn {
       width: 100%; background: none; border: none;
@@ -237,18 +319,21 @@
     .accordion-text { font-size: 13px; line-height: 2; color: var(--gray-lighter); padding: 16px 0; border-bottom: 1px solid rgba(51,51,51,0.5); }
     .accordion-text strong { color: var(--accent); font-weight: 500; display: block; margin-bottom: 6px; letter-spacing: 1px; }
 
+    /* フッター */
     footer { padding: 120px 48px 80px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 40px; }
     .footer-quote { font-family: 'Syne', sans-serif; font-size: clamp(32px,4vw,56px); font-weight: 300; color: var(--gray-lighter); letter-spacing: 2px; line-height: 1.4; max-width: 700px; }
     .footer-quote em { font-style: italic; color: var(--white); }
     .footer-sub { font-size: 10px; letter-spacing: 4px; color: var(--gray-light); text-transform: uppercase; }
     .footer-line { width: 1px; height: 80px; background: linear-gradient(to bottom, var(--gray-mid), transparent); }
 
+    /* フェードアップ */
     .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
     .fade-up.visible { opacity: 1; transform: translateY(0); }
     .fade-up:nth-child(2) { transition-delay: 0.1s; }
     .fade-up:nth-child(3) { transition-delay: 0.2s; }
     .fade-up:nth-child(4) { transition-delay: 0.3s; }
 
+    /* ===== LIGHTBOX ===== */
     .lightbox {
       display: none;
       position: fixed; inset: 0; z-index: 10000;
@@ -282,66 +367,12 @@
       font-size: 10px; letter-spacing: 3px; color: var(--gray-light);
     }
 
-    /* ===== MOBILE RESPONSIVE ===== */
-    @media (max-width: 768px) {
-
-      nav {
-        padding: 16px 20px;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-      .nav-links { gap: 20px; }
-      .nav-links a { font-size: 10px; letter-spacing: 2px; }
-
+    @media (max-width: 900px) {
+      .project-section { grid-template-columns: 1fr; }
+      .project-visuals { padding: 0 32px 80px; }
+      nav { padding: 20px 24px; }
       #hero { padding: 0 24px 60px; }
-      .hero-scroll { display: none; }
-
-      #otobot { padding: 100px 20px 60px; }
-      #otobot > .otobot-inner > div:first-child,
-      #otobot [style*="grid-template-columns:380px"] {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 32px !important;
-      }
-
-      #dview { padding: 80px 20px 60px; }
-      #dview [style*="grid-template-columns:1fr 1fr"] {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 32px !important;
-      }
-
-      .project-section {
-        grid-template-columns: 1fr !important;
-      }
-      .project-text {
-        padding: 80px 24px 40px;
-        background: rgba(8,8,8,0.75) !important;
-      }
-      .project-visuals {
-        padding: 0 24px 60px;
-      }
-
-      #ria .slide-track[style*="flex-direction:column"] {
-        flex-direction: row !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        height: auto !important;
-      }
-      #ria .slide-track > div { flex-shrink: 0; width: 260px; }
-
-      .otobot-card { width: 80vw !important; max-width: 340px; }
-      .otobot-card-inner { height: 240px !important; }
-
-      .project-title { font-size: clamp(36px, 9vw, 64px) !important; }
-      .project-desc { max-width: 100%; }
-      .project-meta { padding-top: 20px; }
-
-      .other-card { width: 200px !important; }
-
-      footer { padding: 60px 24px 40px !important; }
-
-      .section-divider { margin: 0 20px; }
+      .otobot-top { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -350,6 +381,7 @@
   <div class="cursor" id="cursor"></div>
   <div class="cursor-ring" id="cursorRing"></div>
 
+  <!-- Lightbox -->
   <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <div class="lightbox-inner" id="lightboxInner">
       <button class="lightbox-close" onclick="closeLightboxBtn()">×</button>
@@ -358,6 +390,7 @@
     </div>
   </div>
 
+  <!-- ナビゲーション -->
   <nav>
     <a href="#hero" class="nav-logo">K O H</a>
     <ul class="nav-links">
@@ -367,6 +400,7 @@
     </ul>
   </nav>
 
+  <!-- ヒーロー -->
   <section id="hero">
     <div class="hero-video-bg">
       <img src="oto-bot5.png" alt="" style="opacity:0.35;">
@@ -384,11 +418,14 @@
 
   <div class="section-divider"></div>
 
+  <!-- oto-bot（全幅レイアウト） -->
   <section id="otobot">
     <div class="otobot-inner">
 
+      <!-- 上段：テキスト左・スライダー右 -->
       <div style="display:grid;grid-template-columns:380px 1fr;gap:60px;margin-bottom:64px;align-items:start;">
 
+        <!-- テキスト左 -->
         <div>
           <p class="project-index fade-up">001</p>
           <h2 class="project-title fade-up" style="font-size: clamp(40px,5vw,72px);">OTO-BOT</h2>
@@ -412,6 +449,7 @@
           </div>
         </div>
 
+        <!-- スライダー右（横長カード） -->
         <div class="slide-track fade-up">
 
           <div class="otobot-card" style="width: 560px;">
@@ -453,6 +491,7 @@
 
       </div>
 
+      <!-- 下段：Other Blender Works -->
       <p class="fade-up" style="font-size:10px;letter-spacing:4px;color:var(--gray-light);text-transform:uppercase;margin-bottom:16px;">Other Blender Works</p>
       <div class="other-grid fade-up">
 
@@ -470,6 +509,7 @@
           <p>Axolotl Character</p>
         </div>
 
+        <!-- ウーパールーパー動画 -->
         <div class="other-card" style="width:320px;" onclick="openLightboxVideo('0001-0190.mp4','Axolotl Animation')">
           <div class="other-card-inner" style="height:180px;">
             <video src="0001-0190.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
@@ -477,6 +517,7 @@
           <p>Axolotl Animation</p>
         </div>
 
+        <!-- カセットテープ（ファイルが来たら表示） -->
         <div class="other-card" onclick="openLightbox('カセットテープ.png','Cassette Tape')">
           <div class="other-card-inner">
             <img src="カセットテープ.png" alt="Cassette Tape">
@@ -490,6 +531,7 @@
 
   <div class="section-divider"></div>
 
+  <!-- Ria -->
   <section class="project-section" id="ria" style="min-height:auto;">
     <div class="project-bg">
       <video src="gamenrokuga.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
@@ -550,11 +592,13 @@
 
   <div class="section-divider"></div>
 
+  <!-- D-V.I.E.W -->
   <section id="dview" style="padding: 120px 48px 80px; position: relative;">
     <div style="max-width:1400px;margin:0 auto;">
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:64px;align-items:start;">
 
+        <!-- テキスト左 -->
         <div>
           <p class="project-index fade-up">003</p>
           <h2 class="project-title fade-up" style="font-size:clamp(40px,5vw,72px);">D-V.I.E.W.</h2>
@@ -582,6 +626,7 @@
           </div>
         </div>
 
+        <!-- スライダー右 -->
         <div class="slide-track fade-up">
 
           <div class="otobot-card" style="width:300px;">
@@ -617,6 +662,7 @@
     </div>
   </section>
 
+  <!-- フッター -->
   <footer style="padding:80px 48px 60px;display:flex;flex-direction:column;align-items:center;gap:24px;">
     <div style="width:1px;height:60px;background:linear-gradient(to bottom,var(--gray-mid),transparent);"></div>
     <p style="font-family:'Syne',sans-serif;font-size:10px;letter-spacing:6px;color:var(--gray-light);text-transform:uppercase;">Koh Murakami — Portfolio 2026</p>
@@ -624,6 +670,7 @@
   </footer>
 
   <script>
+    // アコーディオン
     function toggleAccordion(btn) {
       const content = btn.nextElementSibling;
       btn.classList.toggle('open');
@@ -631,6 +678,7 @@
       btn.querySelector('span:first-child').textContent = btn.classList.contains('open') ? '閉じる' : '詳細を見る';
     }
 
+    // カスタムカーソル
     const cursor = document.getElementById('cursor');
     const cursorRing = document.getElementById('cursorRing');
     document.addEventListener('mousemove', (e) => {
@@ -642,6 +690,7 @@
       }, 80);
     });
 
+    // スクロールアニメーション
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -653,10 +702,12 @@
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     document.querySelectorAll('.project-section').forEach(el => observer.observe(el));
 
+    // ヒーローフェードイン
     document.querySelectorAll('#hero .fade-up').forEach((el, i) => {
       setTimeout(() => el.classList.add('visible'), 300 + i * 200);
     });
 
+    // Lightbox
     function openLightbox(src, caption) {
       const lb = document.getElementById('lightbox');
       const content = document.getElementById('lightboxContent');
