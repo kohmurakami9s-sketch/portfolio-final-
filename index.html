@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOH MURAKAMI — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #080808;
+      --white: #f0ede8;
+      --gray-dark: #1a1a1a;
+      --gray-mid: #333333;
+      --gray-light: #888888;
+      --gray-lighter: #bbbbbb;
+      --accent: #c8b89a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* カスタムカーソル */
+    .cursor {
+      position: fixed; width: 8px; height: 8px;
+      background: var(--white); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+    }
+    .cursor-ring {
+      position: fixed; width: 32px; height: 32px;
+      border: 1px solid rgba(240,237,232,0.4); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+    }
+
+    /* ナビゲーション */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 24px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      mix-blend-mode: difference;
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-size: 18px;
+      font-weight: 300; letter-spacing: 4px;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a {
+      font-size: 11px; letter-spacing: 3px;
+      color: var(--gray-lighter); text-decoration: none;
+      text-transform: uppercase; transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ヒーロー */
+    #hero {
+      position: relative; height: 100vh;
+      display: flex; align-items: flex-end;
+      padding: 0 48px 80px; overflow: hidden;
+    }
+    .hero-video-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-video-bg img, .hero-video-bg video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.9) 0%, rgba(8,8,8,0.2) 60%, rgba(8,8,8,0.4) 100%);
+      z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; width: 100%; }
+    .hero-label { font-size: 10px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase; margin-bottom: 24px; }
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(64px, 10vw, 140px);
+      font-weight: 300; line-height: 0.9;
+      letter-spacing: -2px; color: var(--white); margin-bottom: 32px;
+    }
+    .hero-tagline { font-size: 12px; letter-spacing: 4px; color: var(--gray-lighter); max-width: 480px; line-height: 2; }
+    .hero-tagline em { font-style: normal; color: var(--white); }
+    .name-jp { font-size: clamp(16px,2vw,24px); font-weight: 300; letter-spacing: 8px; color: var(--gray-light); display: block; margin-top: 12px; }
+    .hero-scroll {
+      position: absolute; right: 48px; bottom: 80px; z-index: 2;
+      writing-mode: vertical-rl; font-size: 10px; letter-spacing: 4px;
+      color: var(--gray-light); display: flex; align-items: center; gap: 16px;
+    }
+    .hero-scroll::after { content: ''; width: 1px; height: 60px; background: linear-gradient(to bottom, var(--gray-light), transparent); }
+
+    /* プロジェクトセクション共通 */
+    .project-section {
+      position: relative;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .project-bg { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity 1.2s ease; }
+    .project-bg img, .project-bg video { width: 100%; height: 100%; object-fit: cover; filter: blur(2px); }
+    .project-bg-overlay { position: absolute; inset: 0; background: rgba(8,8,8,0.45); }
+    .project-section.in-view .project-bg { opacity: 1; }
+
+    .project-text {
+      position: relative; z-index: 2;
+      padding: 80px 48px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .project-index { font-size: 10px; letter-spacing: 5px; color: var(--accent); margin-bottom: 40px; }
+    .project-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(48px, 6vw, 88px);
+      font-weight: 300; line-height: 1; letter-spacing: -1px;
+      margin-bottom: 32px; color: var(--white);
+    }
+    .project-copy { color: var(--accent); margin-bottom: 24px; font-style: italic; font-family: 'Syne', sans-serif; font-size: 18px; }
+    .project-desc { font-size: 13px; line-height: 2.2; color: var(--gray-lighter); max-width: 400px; margin-bottom: 48px; }
+    .project-meta { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--gray-mid); padding-top: 32px; }
+    .project-meta-item { display: flex; gap: 24px; align-items: baseline; }
+    .meta-label { font-size: 9px; letter-spacing: 3px; color: var(--gray-light); text-transform: uppercase; min-width: 80px; }
+    .meta-value { font-size: 12px; color: var(--gray-lighter); letter-spacing: 1px; }
+
+    .project-visuals {
+      position: relative; z-index: 2;
+      padding: 80px 48px 80px 32px;
+      display: flex; align-items: center;
+    }
+
+    /* スライドトラック */
+    .slide-track {
+      display: flex; gap: 12px;
+      overflow-x: auto; padding-bottom: 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab; width: 100%;
+    }
+    .slide-track:active { cursor: grabbing; }
+    .slide-track::-webkit-scrollbar { height: 2px; }
+    .slide-track::-webkit-scrollbar-track { background: var(--gray-mid); }
+    .slide-track::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    /* oto-botビジュアルカード */
+    .otobot-card {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+    }
+    .otobot-card-inner {
+      overflow: hidden;
+      border: 1px solid var(--gray-mid);
+      cursor: zoom-in;
+      position: relative;
+    }
+    .otobot-card-inner img,
+    .otobot-card-inner video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .otobot-card-inner:hover img,
+    .otobot-card-inner:hover video { transform: scale(1.03); }
+    .otobot-card p {
+      font-size: 10px; color: var(--gray-light);
+      letter-spacing: 2px; margin-top: 8px;
+    }
+
+    /* 区切り線 */
+    .section-divider { height: 1px; background: linear-gradient(to right, transparent, var(--gray-mid), transparent); margin: 0 48px; }
+
+    /* oto-botセクション（全幅） */
+    #otobot {
+      padding: 160px 48px 80px;
+      position: relative;
+    }
+    .otobot-inner { max-width: 1400px; margin: 0 auto; }
+    .otobot-top {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 60px;
+      margin-bottom: 64px;
+      align-items: start;
+    }
+
+    /* Other Blender Works */
+    .other-grid {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scroll-snap-type: x mandatory;
+    }
+    .other-grid::-webkit-scrollbar { height: 2px; }
+    .other-grid::-webkit-scrollbar-track { background: var(--gray-mid); }
+    .other-grid::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    .other-card {
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      width: 260px;
+      cursor: zoom-in;
+    }
+    .other-card-inner {
+      height: 180px;
+      overflow: hidden;
+      border: 1px solid var(--gray-mid);
+      position: relative;
+    }
+    .other-card-inner img,
+    .other-card-inner video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+    .other-card-inner:hover img,
+    .other-card-inner:hover video { transform: scale(1.04); }
+    .other-card p {
+      font-size: 10px; color: var(--gray-light);
+      letter-spacing: 2px; margin-top: 8px;
+    }
+
+    /* アコーディオン */
+    .accordion { margin: 24px 0; border-top: 1px solid var(--gray-mid); }
+    .accordion-btn {
+      width: 100%; background: none; border: none;
+      border-bottom: 1px solid var(--gray-mid);
+      color: var(--gray-lighter); padding: 16px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .accordion-btn:hover { color: var(--white); }
+    .accordion-icon { font-size: 18px; transition: transform 0.3s ease; }
+    .accordion-btn.open .accordion-icon { transform: rotate(45deg); }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+    .accordion-content.open { max-height: 1000px; }
+    .accordion-text { font-size: 13px; line-height: 2; color: var(--gray-lighter); padding: 16px 0; border-bottom: 1px solid rgba(51,51,51,0.5); }
+    .accordion-text strong { color: var(--accent); font-weight: 500; display: block; margin-bottom: 6px; letter-spacing: 1px; }
+
+    /* フッター */
+    footer { padding: 120px 48px 80px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 40px; }
+    .footer-quote { font-family: 'Syne', sans-serif; font-size: clamp(32px,4vw,56px); font-weight: 300; color: var(--gray-lighter); letter-spacing: 2px; line-height: 1.4; max-width: 700px; }
+    .footer-quote em { font-style: italic; color: var(--white); }
+    .footer-sub { font-size: 10px; letter-spacing: 4px; color: var(--gray-light); text-transform: uppercase; }
+    .footer-line { width: 1px; height: 80px; background: linear-gradient(to bottom, var(--gray-mid), transparent); }
+
+    /* フェードアップ */
+    .fade-up { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up:nth-child(2) { transition-delay: 0.1s; }
+    .fade-up:nth-child(3) { transition-delay: 0.2s; }
+    .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(0,0,0,0.92);
+      align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      max-width: 90vw; max-height: 90vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lightbox-inner img,
+    .lightbox-inner video {
+      max-width: 90vw; max-height: 90vh;
+      object-fit: contain;
+      border: 1px solid var(--gray-mid);
+    }
+    .lightbox-close {
+      position: absolute; top: -40px; right: 0;
+      font-size: 28px; color: var(--gray-lighter);
+      cursor: pointer; background: none; border: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--white); }
+    .lightbox-caption {
+      position: absolute; bottom: -32px; left: 0; right: 0;
+      text-align: center;
+      font-size: 10px; letter-spacing: 3px; color: var(--gray-light);
+    }
+
+    @media (max-width: 900px) {
+      .project-section { grid-template-columns: 1fr; }
+      .project-visuals { padding: 0 32px 80px; }
+      nav { padding: 20px 24px; }
+      #hero { padding: 0 24px 60px; }
+      .otobot-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <div class="lightbox-inner" id="lightboxInner">
+      <button class="lightbox-close" onclick="closeLightboxBtn()">×</button>
+      <div id="lightboxContent"></div>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <!-- ナビゲーション -->
+  <nav>
+    <a href="#hero" class="nav-logo">K O H</a>
+    <ul class="nav-links">
+      <li><a href="#otobot">oto-bot</a></li>
+      <li><a href="#ria">Ria</a></li>
+      <li><a href="#dview">D-V.I.E.W.</a></li>
+    </ul>
+  </nav>
+
+  <!-- ヒーロー -->
+  <section id="hero">
+    <div class="hero-video-bg">
+      <img src="oto-bot5.png" alt="" style="opacity:0.35;">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-label fade-up">Portfolio 2026</p>
+      <h1 class="hero-name fade-up">Koh&nbsp;&nbsp;Murakami<br><span class="name-jp">村上 航</span></h1>
+      <p class="hero-tagline fade-up">
+        Designer &amp; Developer based in Tokyo
+      </p>
+    </div>
+    <div class="hero-scroll">SCROLL</div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- oto-bot（全幅レイアウト） -->
+  <section id="otobot">
+    <div class="otobot-inner">
+
+      <!-- 上段：テキスト左・スライダー右 -->
+      <div style="display:grid;grid-template-columns:380px 1fr;gap:60px;margin-bottom:64px;align-items:start;">
+
+        <!-- テキスト左 -->
+        <div>
+          <p class="project-index fade-up">001</p>
+          <h2 class="project-title fade-up" style="font-size: clamp(40px,5vw,72px);">OTO-BOT</h2>
+          <p class="project-copy fade-up">カセットテープが、ロボットになる。</p>
+          <p class="project-desc fade-up">
+            幼い頃から使っていたウォークマンへの愛着から生まれたキャラクター。カセットテープを挿入すると起動し、自分で歩き出す。普段はアンプ型の充電ドックで休憩。ヘッドホンを持てば持ち運べる。
+          </p>
+          <div class="project-meta fade-up">
+            <div class="project-meta-item">
+              <span class="meta-label">Tool</span>
+              <span class="meta-value">Blender 4.5</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="meta-label">Period</span>
+              <span class="meta-value">2026.01 — 現在</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="meta-label">Status</span>
+              <span class="meta-value">変形アニメーション制作中</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- スライダー右（横長カード） -->
+        <div class="slide-track fade-up">
+
+          <div class="otobot-card" style="width: 560px;">
+            <div class="otobot-card-inner" style="height: 340px;" onclick="openLightbox('oto-bot5.png','全カラーラインナップ')">
+              <img src="oto-bot5.png" alt="ラインナップ">
+            </div>
+            <p>全カラーラインナップ</p>
+          </div>
+
+          <div class="otobot-card" style="width: 480px;">
+            <div class="otobot-card-inner" style="height: 340px;" onclick="openLightbox('変形前.png','OFF — 充電ドックで休憩中')">
+              <img src="変形前.png" alt="変形前">
+            </div>
+            <p>OFF — 充電ドックで休憩中</p>
+          </div>
+
+          <div class="otobot-card" style="width: 480px;">
+            <div class="otobot-card-inner" style="height: 340px;" onclick="openLightbox('変形後.png','ON — カセット挿入で起動')">
+              <img src="変形後.png" alt="変形後">
+            </div>
+            <p>ON — カセット挿入で起動</p>
+          </div>
+
+          <div class="otobot-card" style="width: 480px;">
+            <div class="otobot-card-inner" style="height: 340px;" onclick="openLightboxVideo('oto-bot.wip.mp4','変形アニメーション WIP')">
+              <video src="oto-bot.wip.mp4" autoplay muted loop playsinline></video>
+            </div>
+            <p>変形アニメーション WIP</p>
+          </div>
+
+          <div class="otobot-card" style="width: 560px;">
+            <div class="otobot-card-inner" style="height: 340px;" onclick="openLightbox('oto-bot4.png','5色のカラーバリエーション')">
+              <img src="oto-bot4.png" alt="カラーバリエーション">
+            </div>
+            <p>5色のカラーバリエーション</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 下段：Other Blender Works -->
+      <p class="fade-up" style="font-size:10px;letter-spacing:4px;color:var(--gray-light);text-transform:uppercase;margin-bottom:16px;">Other Blender Works</p>
+      <div class="other-grid fade-up">
+
+        <div class="other-card" onclick="openLightbox('瓶に入ったうーぱーるーぱー.png','Axolotl in a Jar')">
+          <div class="other-card-inner">
+            <img src="瓶に入ったうーぱーるーぱー.png" alt="Axolotl in a Jar">
+          </div>
+          <p>Axolotl in a Jar</p>
+        </div>
+
+        <div class="other-card" onclick="openLightbox('Axolotl Character.png','Axolotl Character')">
+          <div class="other-card-inner">
+            <img src="Axolotl Character.png" alt="Axolotl Character">
+          </div>
+          <p>Axolotl Character</p>
+        </div>
+
+        <!-- ウーパールーパー動画 -->
+        <div class="other-card" style="width:320px;" onclick="openLightboxVideo('0001-0190.mp4','Axolotl Animation')">
+          <div class="other-card-inner" style="height:180px;">
+            <video src="0001-0190.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+          </div>
+          <p>Axolotl Animation</p>
+        </div>
+
+        <!-- カセットテープ（ファイルが来たら表示） -->
+        <div class="other-card" onclick="openLightbox('カセットテープ.png','Cassette Tape')">
+          <div class="other-card-inner">
+            <img src="カセットテープ.png" alt="Cassette Tape">
+          </div>
+          <p>Cassette Tape</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Ria -->
+  <section class="project-section" id="ria" style="min-height:auto;">
+    <div class="project-bg">
+      <video src="gamenrokuga.mov" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+      <div class="project-bg-overlay"></div>
+    </div>
+
+    <div class="project-text" style="background:rgba(8,8,8,0.55);backdrop-filter:blur(4px);">
+      <p class="project-index fade-up">002</p>
+      <h2 class="project-title fade-up">Project<br>Ria</h2>
+      <p class="project-copy fade-up">AIになった孫が、おばあちゃんのわからないを全部助ける。</p>
+      <p class="project-desc fade-up">
+        ガラケー終了後のデジタル化社会で、高齢者と電子デバイスの共存は必然的課題。祖母がスマホ操作に困るたびに孫を呼ぶ光景から着想し、不在時でも「孫」がLINEでいつでも助けられる環境を構築。
+      </p>
+
+      <div class="accordion fade-up">
+        <button class="accordion-btn" onclick="toggleAccordion(this)">
+          <span>詳細を見る</span>
+          <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-content">
+          <p class="accordion-text"><strong>背景 — 社会課題</strong>ガラケー終了後のデジタル化社会で、高齢者と電子デバイスの共存は必然的課題である。</p>
+          <p class="accordion-text"><strong>背景 — 原体験</strong>祖母がスマホ操作や日常生活に困るたびに孫である自分を呼ぶ光景から着想。不在時でも「孫」がLINEでいつでも助けられる環境を作りたい。</p>
+          <p class="accordion-text"><strong>技術構成</strong>ベースLLM: Groq / Claude API（回線不良時はOllamaでローカル完結）。複数API統合: Gemini（画像解析）/ Spotify / RSS・GNews / 天気・バス時刻表・番組表等。パーソナライズ2層構造。</p>
+          <p class="accordion-text"><strong>現在の実装状況</strong>ベースRia稼働中 / LINE Bot実装 / 専用UI完成 / 毎晩0時の自動学習ループ稼働中 / パーソナライズの構築（Phase 4.6 / 9）</p>
+        </div>
+      </div>
+
+      <div class="project-meta fade-up">
+        <div class="project-meta-item"><span class="meta-label">Stack</span><span class="meta-value">Python / Electron / Claude API / Groq / Gemini</span></div>
+        <div class="project-meta-item"><span class="meta-label">Period</span><span class="meta-value">2026.02 — 現在</span></div>
+        <div class="project-meta-item"><span class="meta-label">Status</span><span class="meta-value">Phase 4.6 / 9 稼働中</span></div>
+      </div>
+    </div>
+
+    <div class="project-visuals">
+      <div class="slide-track fade-up" style="flex-direction:column;overflow-y:auto;overflow-x:hidden;height:620px;">
+        <div style="margin-bottom:4px;cursor:zoom-in;" onclick="openLightbox('IMG_1415.jpeg','製作者専用UI — ゴールドテーマ')">
+          <div style="height:280px;overflow:hidden;border:1px solid var(--gray-mid);">
+            <img src="IMG_1415.jpeg" alt="Ria UI" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <p style="font-size:10px;color:var(--gray-light);letter-spacing:2px;margin:6px 0 12px 4px;">製作者専用UI — ゴールドテーマ</p>
+        </div>
+        <div style="margin-bottom:4px;cursor:zoom-in;" onclick="openLightbox('IMG_1414.jpeg','開発中のBlender画面にRiaのミニUIが常駐')">
+          <div style="height:280px;overflow:hidden;border:1px solid var(--gray-mid);">
+            <img src="IMG_1414.jpeg" alt="Ria mini UI" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <p style="font-size:10px;color:var(--gray-light);letter-spacing:2px;margin:6px 0 12px 4px;">開発中のBlender画面にRiaのミニUIが常駐</p>
+        </div>
+        <div style="cursor:zoom-in;" onclick="openLightbox('IMG_1417.jpeg','ばあばRia — LINEで実際に稼働中')">
+          <div style="height:280px;overflow:hidden;border:1px solid var(--gray-mid);">
+            <img src="IMG_1417.jpeg" alt="baaba Ria LINE" style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+          </div>
+          <p style="font-size:10px;color:var(--gray-light);letter-spacing:2px;margin:6px 0 0 4px;">ばあばRia — LINEで実際に稼働中</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- D-V.I.E.W -->
+  <section id="dview" style="padding: 120px 48px 80px; position: relative;">
+    <div style="max-width:1400px;margin:0 auto;">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:64px;align-items:start;">
+
+        <!-- テキスト左 -->
+        <div>
+          <p class="project-index fade-up">003</p>
+          <h2 class="project-title fade-up" style="font-size:clamp(40px,5vw,72px);">D-V.I.E.W.</h2>
+          <p class="project-copy fade-up">AIの耳で、全てのドライバーに安心を。</p>
+          <p class="project-desc fade-up">
+            聴覚に不安を持つドライバー向けの緊急車両サイレンリアルタイム検知システム。音声をフーリエ変換でメルスペクトログラムに変換しCNNで分類。TensorFlow.jsによりブラウザ上で完結、ネット接続不要。
+          </p>
+
+          <div class="accordion fade-up">
+            <button class="accordion-btn" onclick="toggleAccordion(this)">
+              <span>詳細を見る</span>
+              <span class="accordion-icon">+</span>
+            </button>
+            <div class="accordion-content">
+              <p class="accordion-text"><strong>背景 — 社会課題</strong>日本では補聴器の使用を条件に聴覚障害者の運転が認められているが、車内ではサイレン音の聞き取りが困難な場面が発生する。</p>
+              <p class="accordion-text"><strong>技術仕様</strong>Web Audio APIでリアルタイム録音。フーリエ変換によりメルスペクトログラムに変換。CNNで画像分類。TensorFlow.jsによりブラウザ完結。多言語対応（EN/JP/CN/KR/DE）</p>
+              <p class="accordion-text"><strong>現在の状況</strong>ブラウザ上でのリアルタイム音声録音・モデル推論まで実装完了。判定精度向上のためモデル再構築中。</p>
+            </div>
+          </div>
+
+          <div class="project-meta fade-up">
+            <div class="project-meta-item"><span class="meta-label">Stack</span><span class="meta-value">React / TensorFlow.js / Web Audio API / CNN</span></div>
+            <div class="project-meta-item"><span class="meta-label">Status</span><span class="meta-value">UI実装完了 / モデル再構築中</span></div>
+            <div class="project-meta-item"><span class="meta-label">Lang</span><span class="meta-value">EN / JP / CN / KR / DE</span></div>
+          </div>
+        </div>
+
+        <!-- スライダー右 -->
+        <div class="slide-track fade-up">
+
+          <div class="otobot-card" style="width:300px;">
+            <div class="otobot-card-inner" style="height:420px;" onclick="openLightbox('IMG_1357.jpeg','デバイスマトリクス')">
+              <img src="IMG_1357.jpeg" alt="デバイスマトリクス">
+            </div>
+            <p>デバイスマトリクス</p>
+          </div>
+
+          <div class="otobot-card" style="width:300px;">
+            <div class="otobot-card-inner" style="height:420px;" onclick="openLightbox('IMG_1358.jpeg','検知ログ / 多言語対応')">
+              <img src="IMG_1358.jpeg" alt="検知ログ">
+            </div>
+            <p>検知ログ / 多言語対応</p>
+          </div>
+
+          <div class="otobot-card" style="width:300px;">
+            <div class="otobot-card-inner" style="height:420px;" onclick="openLightbox('IMG_1359.jpeg','リアルタイム検知モード')">
+              <img src="IMG_1359.jpeg" alt="リアルタイム検知モード">
+            </div>
+            <p>リアルタイム検知モード</p>
+          </div>
+
+          <div class="otobot-card" style="width:480px;">
+            <div class="otobot-card-inner" style="height:420px;" onclick="openLightbox('D-V.I.E.W code.png','実装コード（React + TensorFlow.js）')">
+              <img src="D-V.I.E.W code.png" alt="実装コード">
+            </div>
+            <p>実装コード（React + TensorFlow.js）</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer style="padding:80px 48px 60px;display:flex;flex-direction:column;align-items:center;gap:24px;">
+    <div style="width:1px;height:60px;background:linear-gradient(to bottom,var(--gray-mid),transparent);"></div>
+    <p style="font-family:'Syne',sans-serif;font-size:10px;letter-spacing:6px;color:var(--gray-light);text-transform:uppercase;">Koh Murakami — Portfolio 2026</p>
+    <p style="font-size:9px;letter-spacing:3px;color:var(--gray-mid);text-transform:uppercase;">音 × 映像 × AI</p>
+  </footer>
+
+  <script>
+    // アコーディオン
+    function toggleAccordion(btn) {
+      const content = btn.nextElementSibling;
+      btn.classList.toggle('open');
+      content.classList.toggle('open');
+      btn.querySelector('span:first-child').textContent = btn.classList.contains('open') ? '閉じる' : '詳細を見る';
+    }
+
+    // カスタムカーソル
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursorRing');
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      setTimeout(() => {
+        cursorRing.style.left = e.clientX + 'px';
+        cursorRing.style.top = e.clientY + 'px';
+      }, 80);
+    });
+
+    // スクロールアニメーション
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          if (entry.target.classList.contains('project-section')) entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    document.querySelectorAll('.project-section').forEach(el => observer.observe(el));
+
+    // ヒーローフェードイン
+    document.querySelectorAll('#hero .fade-up').forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), 300 + i * 200);
+    });
+
+    // Lightbox
+    function openLightbox(src, caption) {
+      const lb = document.getElementById('lightbox');
+      const content = document.getElementById('lightboxContent');
+      const cap = document.getElementById('lightboxCaption');
+      content.innerHTML = `<img src="${src}" alt="${caption}">`;
+      cap.textContent = caption || '';
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openLightboxVideo(src, caption) {
+      const lb = document.getElementById('lightbox');
+      const content = document.getElementById('lightboxContent');
+      const cap = document.getElementById('lightboxCaption');
+      content.innerHTML = `<video src="${src}" autoplay muted loop playsinline controls style="max-width:90vw;max-height:85vh;"></video>`;
+      cap.textContent = caption || '';
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e.target === document.getElementById('lightbox')) {
+        document.getElementById('lightbox').classList.remove('active');
+        document.getElementById('lightboxContent').innerHTML = '';
+        document.body.style.overflow = '';
+      }
+    }
+
+    function closeLightboxBtn() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.getElementById('lightboxContent').innerHTML = '';
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightboxBtn();
+    });
+  </script>
+
+</body>
+</html>
