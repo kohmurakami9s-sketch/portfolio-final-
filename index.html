@@ -406,10 +406,10 @@
         <!-- テキスト左 -->
         <div>
           <p class="project-index fade-up">001</p>
-          <h2 class="project-title fade-up" style="font-size: clamp(40px,5vw,72px);">OTO-BOT</h2>
-          <p class="project-copy fade-up">カセットテープが、ロボットになる。</p>
+          <h2 class="project-title fade-up" style="font-size: clamp(40px,5vw,72px);">Oto-Bot</h2>
+          <p class="project-copy fade-up">相棒が、相棒に。</p>
           <p class="project-desc fade-up">
-            幼い頃から使っていたウォークマンへの愛着から生まれたキャラクター。カセットテープを挿入すると起動し、自分で歩き出す。普段はアンプ型の充電ドックで休憩。ヘッドホンを持てば持ち運べる。
+            幼い頃から一緒だった「相棒」、音楽プレイヤーへの愛着から生まれたキャラクター。普段はアンプ型の充電ドックでおやすみ、カセットテープを挿入すると起動し歩き出す。音楽と友情をどこへでも。
           </p>
           <div class="project-meta fade-up">
             <div class="project-meta-item">
@@ -434,7 +434,7 @@
             <div class="otobot-card-inner" style="height: 340px;" onclick="openLightbox('oto-bot5.png','全カラーラインナップ')">
               <img src="oto-bot5.png" alt="ラインナップ">
             </div>
-            <p>全カラーラインナップ</p>
+            <p>全5色のカラーラインナップ</p>
           </div>
 
           <div class="otobot-card" style="width: 480px;">
@@ -462,7 +462,7 @@
             <div class="otobot-card-inner" style="height: 340px;" onclick="openLightbox('oto-bot4.png','5色のカラーバリエーション')">
               <img src="oto-bot4.png" alt="カラーバリエーション">
             </div>
-            <p>5色のカラーバリエーション</p>
+            <p>性格も音色もそれぞれちがいます</p>
           </div>
 
         </div>
@@ -477,14 +477,14 @@
           <div class="other-card-inner">
             <img src="瓶に入ったうーぱーるーぱー.png" alt="Axolotl in a Jar">
           </div>
-          <p>Axolotl in a Jar</p>
+          <p>うーぱーるーぱー</p>
         </div>
 
         <div class="other-card" onclick="openLightbox('Axolotl Character.png','Axolotl Character')">
           <div class="other-card-inner">
             <img src="Axolotl Character.png" alt="Axolotl Character">
           </div>
-          <p>Axolotl Character</p>
+          <p>なぜか二足歩行のウーパールーパー</p>
         </div>
 
         <!-- ウーパールーパー動画 -->
@@ -492,7 +492,7 @@
           <div class="other-card-inner" style="height:180px;">
             <video src="0001-0190.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video>
           </div>
-          <p>Axolotl Animation</p>
+          <p>New Yearアニメーション</p>
         </div>
 
         <!-- カセットテープ（ファイルが来たら表示） -->
@@ -519,9 +519,9 @@
     <div class="project-text" style="background:rgba(8,8,8,0.55);backdrop-filter:blur(4px);">
       <p class="project-index fade-up">002</p>
       <h2 class="project-title fade-up">Project<br>Ria</h2>
-      <p class="project-copy fade-up">AIになった孫が、おばあちゃんのわからないを全部助ける。</p>
+      <p class="project-copy fade-up">孫がいつも、あなたのために。</p>
       <p class="project-desc fade-up">
-        ガラケー終了後のデジタル化社会で、高齢者と電子デバイスの共存は必然的課題。祖母がスマホ操作に困るたびに孫を呼ぶ光景から着想し、不在時でも「孫」がLINEでいつでも助けられる環境を構築。
+        自分用に構築したパーソナルアシスタントAIを、家族のために再構築。不在時でも「孫」がLINEでいつでも助けられる環境を。
       </p>
 
       <div class="accordion fade-up">
@@ -531,7 +531,7 @@
         </button>
         <div class="accordion-content">
           <p class="accordion-text"><strong>背景 — 社会課題</strong>ガラケー終了後のデジタル化社会で、高齢者と電子デバイスの共存は必然的課題である。</p>
-          <p class="accordion-text"><strong>背景 — 原体験</strong>祖母がスマホ操作や日常生活に困るたびに孫である自分を呼ぶ光景から着想。不在時でも「孫」がLINEでいつでも助けられる環境を作りたい。製作者自身の会話ログ・趣味・体験データを読み込ませ「孫らしい」語り口と知識をプロファイリング。祖母との会話ログは毎晩親機へ転送・蓄積し、パーソナライズを自動生成・更新する2層構造。</p>
+          <p class="accordion-text"><strong>背景 — 原体験</strong>もともと自分専用のAIアシスタントとして開発。祖母がスマホ操作や日常生活に困るたびに孫である自分を呼ぶ光景から着想。不在時でも「孫」がLINEでいつでも助けられる環境を作りたい。製作者自身の会話ログ・趣味・体験データを読み込ませ「孫らしい」語り口と知識をプロファイリング。祖母との会話ログは毎晩親機へ転送・蓄積し、パーソナライズを自動生成・更新する2層構造。</p>
           <p class="accordion-text"><strong>技術構成</strong>ベースLLM: Groq / Claude API（回線不良時はOllamaでローカル完結）。複数API統合: Gemini（画像解析）/ Spotify / RSS・GNews / 天気・バス時刻表・番組表等。祖母のスマホはLINE＋専用Webアプリの2本立て、製作者のMacを親機として管理しスマホへの負荷を軽減。</p>
           <p class="accordion-text"><strong>現在の実装状況</strong>ベースRia稼働中 / LINE Bot実装 / 専用UI完成 / 毎晩0時の自動学習ループ稼働中 / パーソナライズの構築（Phase 4.6 / 9）</p>
         </div>
